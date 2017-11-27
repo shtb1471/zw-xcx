@@ -1,23 +1,23 @@
 const app = getApp();
-import { imageUtil, LoctionStorage} from '../../utils/util.js'; 
+import { imageUtil, LoctionStorage } from '../../utils/util.js';
 Page({
   data: {
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
-    login:{desc:"认识真实的我"},
-    focus:false,
+    login: { desc: "认识真实的我" },
+    focus: false,
     focusImg: false,
     focusCode: false,
     phone: "",
-    imgCode:"",
+    imgCode: "",
     verifyImg: "",
-    imgKey:"",
+    imgKey: "",
     verifyCode: "",
     disabled: false,
     getVerifyTxt: "获取验证码",
     fixTime: 59,
-    errorMsg:"",
-    unionid:""
+    errorMsg: "",
+    unionid: ""
   },
   getUserInfo: function (e) {
     app.globalData.userInfo = e.detail.userInfo
@@ -28,70 +28,71 @@ Page({
   },
   onLoad: function (options) {
     wx.hideShareMenu();
-    var that = this;   
-    if (app.globalData.userInfo) {
-      this.setData({
-        userInfo: app.globalData.userInfo,
-        hasUserInfo: true
-      })
-    } else{
-      wx.getUserInfo({
-        success: res => {
-          app.globalData.userInfo = res.userInfo
-          this.setData({
-            userInfo: res.userInfo,
-            hasUserInfo: true
-          })
-        }
-      })
-    } 
     this.getUnionId();
   },
   //获取unionid
-  getUnionId(){
-    var _this=this;
+  getUnionId() {
+    var _this = this;
     wx.login({
       success(res) {
-        wx.request({
-          url: "https://api.weixin.qq.com/sns/jscode2session",
-          data: {
-            appid: app.data.appid,
-            secret: app.data.secret,
-            js_code: res.code,
-            grant_type: "autorization_code"
-          },
-          success(openRes) {
-            wx.request({
-              url: "https://api.weixin.qq.com/cgi-bin/token",
-              data: {
-                grant_type: "client_credential",
-                appid: app.data.appid,
-                secret: app.data.secret,
-              },
-              success(accessRes) {
-                wx.request({
-                  url: "https://api.weixin.qq.com/cgi-bin/user/info",
-                  data: {
-                    access_token: accessRes.data.access_token,
-                    openid: openRes.data.openid
-                  },
-                  success(unionRes) {
-                    //只有在用户将公众号绑定到微信开放平台帐号后，才会出现该字段
-                    _this.setData({
-                      unionid: unionRes.data.unionid == undefined ? "" : unionRes.data.unionid
-                    })
-                    _this.autoLogin();
-                  }
-                })
-              }
-            })
-          }
-        })
+        if (res.code) {
+          wx.getUserInfo({
+            success: resInfo => {
+              app.globalData.userInfo = resInfo.userInfo
+              _this.setData({
+                userInfo: resInfo.userInfo,
+                hasUserInfo: true
+              })
+              _this.getOpenId(res.code, resInfo);
+            }
+          })
+        } else {
+          console.log('获取用户登录态失败！' + res.errMsg);
+        }
       }
     })
   },
-  autoLogin(){
+  decodeUserInfo(code, resInfo, sessionKey) {
     var _this=this;
+    wx.request({
+      url: app.data.zwUserInfoUrl + '/doDecryptData',//自己的服务接口地址
+      method: 'POST',
+      header: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      data: {
+        encryptedData: resInfo.encryptedData,
+        iv: resInfo.iv,
+        sessionKey: sessionKey,
+      },
+      success: function (res) {
+        _this.setData({
+          unionId: res.data.unionId
+        })
+        _this.autoLogin(res.data.unionId);
+      },
+      fail: function (res) {
+        console.log(res);
+      }
+    });
+  },
+  getOpenId(code, userInfo) {
+    var _this = this;
+    wx.request({
+      url: "https://api.weixin.qq.com/sns/jscode2session",
+      data: {
+        appid: app.data.appid,
+        secret: app.data.secret,
+        js_code: code,
+        grant_type: "autorization_code"
+      },
+      success(openRes) {
+        _this.decodeUserInfo(code, userInfo, openRes.data.session_key);
+      }
+    })
+  },
+  autoLogin(unionid) {
+    var _this = this;
     wx.request({
       url: app.data.zwLoginUrl + '/zwlogin',
       method: 'POST',
@@ -100,11 +101,11 @@ Page({
         , source: "ZW-27582764699958629429945054883"              // 来源(必填)
         , client: "微信小程序"          //客户端类型(必填)
         , appVersion: "0.0.1"      //版本号(必填)
-        , unionId: _this.data.unionid
+        , unionId: unionid
       },
       header: { "Content-Type": "application/x-www-form-urlencoded" },
       success: function (res) {
-        if(res.data.code=="0"){
+        if (res.data.code == "0") {
           var userId = res.data.data.userId;
           var sid = res.data.sid;
           var cookies = {
@@ -116,23 +117,23 @@ Page({
           _this.handResult_ajax(userId, sid);
         }
       },
-      fail(e){
+      fail(e) {
 
       }
     })
   },
   onShow() {
-     this.getVerifyImgCode();
+    this.getVerifyImgCode();
   },
   // 倒计时
   getTime() {
-    var _this=this,timer="";
-    if(this.data.fixTime == 0) {
+    var _this = this, timer = "";
+    if (this.data.fixTime == 0) {
       clearTimeout(timer);
       this.setData({
-        disabled:false,
+        disabled: false,
         getVerifyTxt: "获取验证码",
-        fixTime:59
+        fixTime: 59
       });
     } else {
       this.data.fixTime--;
@@ -141,7 +142,7 @@ Page({
         getVerifyTxt: "重发(" + this.data.fixTime + ")",
         fixTime: this.data.fixTime
       })
-      timer=setTimeout(function () {
+      timer = setTimeout(function () {
         _this.getTime();
       }, 1000)
     }
@@ -159,12 +160,12 @@ Page({
         'content-type': 'application/x-www-form-urlencoded'
       },
       success: function (res) {
-        if (res.data.code == 0 || res.data.code=='0'){
+        if (res.data.code == 0 || res.data.code == '0') {
           _this.setData({
             imgCode: res.data.data[0],
             imgKey: res.data.extra
           });
-        }else{
+        } else {
           wx.showToast({
             title: "获取图形验证码失败",
             image: "../../images/cross.png",
@@ -172,7 +173,7 @@ Page({
             duration: 2000
           });
         }
-        
+
       },
       fail: function (e) {
         wx.showToast({
@@ -185,9 +186,9 @@ Page({
     })
   },
   //获取sms
-  getVerifyCode(){
-    var _this=this;
-    var dataJson={
+  getVerifyCode() {
+    var _this = this;
+    var dataJson = {
       format: "json",
       phone: _this.data.phone,
       inputCode: _this.data.verifyImg,
@@ -198,7 +199,7 @@ Page({
         method: 'POST',
         url: app.data.dlgUrl + '/api/smsRest/sendCode',
         data: dataJson,
-        header:{
+        header: {
           'content-type': 'application/x-www-form-urlencoded'
         },
         success: function (res) {
@@ -220,7 +221,7 @@ Page({
         },
         fail: function (e) {
           wx.showToast({
-            title:"发送验证码失败",
+            title: "发送验证码失败",
             image: "../../images/cross.png",
             icon: 'success',
             duration: 2000
@@ -229,7 +230,7 @@ Page({
       })
     }
   },
-  phoneInput:function(e){
+  phoneInput: function (e) {
     this.setData({
       phone: e.detail.value
     })
@@ -244,7 +245,7 @@ Page({
       verifyCode: e.detail.value
     })
   },
-  verifyInput(){
+  verifyInput() {
     if (this.data.phone == "" || !/^1[34578]\d{9}$/.test(this.data.phone)) {
       this.setData({
         errorMsg: "请输入正确手机号",
@@ -265,9 +266,9 @@ Page({
     }
     return true;
   },
-  loginSubmit:function(){
-    var _this=this;
-    if (this.verifyInput()){
+  loginSubmit: function () {
+    var _this = this;
+    if (this.verifyInput()) {
       if (this.data.verifyCode == "") {
         this.setData({
           errorMsg: "验证码不为空",
@@ -278,10 +279,10 @@ Page({
         this.setData({ errorMsg: "" });
       }
       wx.request({
-        url: app.data.zwLoginUrl+'/zwlogin',
+        url: app.data.zwLoginUrl + '/zwlogin',
         method: 'POST',
         data: {
-          phone:_this.data.phone 	 //用户名
+          phone: _this.data.phone 	 //用户名
           , type: '1'			     //用户类型，1、个人，2、企业（必填）
           , validCode: _this.data.verifyCode			 //验证码
           , source: "ZW-27582764699958629429945054883"              // 来源(必填)
@@ -294,9 +295,9 @@ Page({
           if (res.data.code == "0") {
             var userId = res.data.data.userId;
             var sid = res.data.sid;
-            var cookies={
-              "userId":userId,
-              "sid":sid
+            var cookies = {
+              "userId": userId,
+              "sid": sid
             }
             wx.setStorageSync("cookies", cookies);
             // //判断有无测验
@@ -310,7 +311,7 @@ Page({
             });
           }
         },
-        fail: function (e) { 
+        fail: function (e) {
           wx.showToast({
             title: e.msg,
             image: "../../images/cross.png",
@@ -323,13 +324,13 @@ Page({
   },
   //登录后——判断有无测验
   handResult_ajax(userId, sid) {
-    var _this=this;
+    var _this = this;
     wx.request({
       method: 'POST',
       url: app.data.zwUrl + '/api/zw/userHandApi/handResult',
-      data: { 
-        format:"json",
-        userId: userId==undefined?"":userId, 
+      data: {
+        format: "json",
+        userId: userId == undefined ? "" : userId,
         sid: sid
       },
       header: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -366,7 +367,7 @@ Page({
           }
         }
       },
-      fail: function (e) { 
+      fail: function (e) {
         wx.showToast({
           title: e.msg,
           image: "../../images/cross.png",
@@ -377,18 +378,18 @@ Page({
     })
   },
   //查询用户性别
-  authentication_ajax(userId, sid){
+  authentication_ajax(userId, sid) {
     wx.request({
       method: 'POST',
       url: app.data.zwUrl + '/api/zw/userHandApi/querySex',
       data: {
-        format:"json",
-        userId: userId==undefined?"":userId,//用户id
+        format: "json",
+        userId: userId == undefined ? "" : userId,//用户id
         sid: sid
       },
       header: { "Content-Type": "application/x-www-form-urlencoded" },
       success: function (res) {
-        var datas=res.data;
+        var datas = res.data;
         if (datas.code == "0") {
           if (datas.existSex != true) {
             wx.redirectTo({
@@ -401,7 +402,7 @@ Page({
           }
         }
       },
-      fail: function (e) { 
+      fail: function (e) {
         wx.showToast({
           title: e.msg,
           image: "../../images/cross.png",

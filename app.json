@@ -1,13 +1,13 @@
 {
-  "pages": [ 
+  "pages": [
     "pages/index/index",
     "pages/login/login",
     "pages/sex/sex",
     "pages/rightHand/rightHand",
     "pages/uploadSuccess/uploadSuccess",
     "pages/uploadFail/uploadFail",
-    "pages/process/process",    
-    "pages/result/result",
+    "pages/process/process",
+    "pages/result/result", 
     "pages/share/share",
     "pages/logs/logs"
   ],

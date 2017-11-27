@@ -54,6 +54,10 @@ Page({
       }
     ],
     listActive: "item_00",
+    scrollTop: {
+      scroll_top: 0,
+      goTop_show: false
+    },  
     listContents: [],
     itemCats: "",
     itemCats1: "",
@@ -208,12 +212,32 @@ Page({
       }
     })
   },
+  scrollTopFun(e){
+    if (e.detail.scrollTop > 300) {//触发gotop的显示条件  
+      this.setData({
+        'scrollTop.goTop_show': true
+      });
+    } else {
+      this.setData({
+        'scrollTop.goTop_show': false
+      });
+    }  
+  },
   //左侧tab切换
   changeItem(val) {
     var _this = this;
+    var _top = this.data.scrollTop.scroll_top;
+    if (_top == 1) {
+      _top = 0;
+    } else {
+      _top = 1;
+    }
+    this.setData({
+      'scrollTop.scroll_top': _top
+    });  
     _this.setData({
       listActive: val.currentTarget.id
-    })
+    });
     var listTxt = val.currentTarget.dataset.text,
       listContents = this.data.listContents,
       tabSelectIdx = _this.data.tabSelect;
@@ -335,7 +359,7 @@ Page({
     return {
       title: '“真我”比您更懂您，源于心理专家亲自解析',
       imageUrl: "../../images/logo_fenxiang.png",
-      path: '../share/share?contentId=' + _this.data.shareCharacterId,
+      path: '/pages/share/share?contentId=' + _this.data.shareCharacterId,
       success: function (res) {
         // 转发成功
       },

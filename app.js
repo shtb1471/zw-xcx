@@ -1,8 +1,8 @@
 //app.js
 App({
   data:{
-    appid: "",
-    secret: "",
+    appid: "wx568c16f48fed8e8d",
+    secret: "5e368d82ac33b620d3fe784a74ab989f",
     // dlgUrl:  'https://dlg.dalinggong.com/v_2_4',
     // zwLoginUrl:'http://sso.dalinggong.com',
     // zwUrl: 'http://zw.dalinggong.com',
@@ -10,6 +10,7 @@ App({
     dlgUrl: 'https://dlg3.dalinggong.com',
     zwLoginUrl: 'http://sso3.dalinggong.com',
     zwUrl: 'http://zw3.dalinggong.com',
+    zwUserInfoUrl:"http://wx2.dalinggong.com",
     cid: 'ZW-27582764699958629429945054803',
     cidUPimg: '27582764699958629429945054803'
   },

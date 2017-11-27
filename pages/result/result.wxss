@@ -1,9 +1,13 @@
 /* pages/result/result.wxss */
 @import "../../lib/font_icon/iconfont.wxss";
 page{
-  height:100%;
-  overflow-y:auto;
+  width:100%;
+  height: 100%;
   flex-direction:column;
+  overflow: hidden;
+}
+::-webkit-scrollbar{
+  display: none;
 }
 .resultH{
     width: 100%;
@@ -64,6 +68,10 @@ page{
   color: #ffb353;
   border-bottom: 1px solid #ffb353;
 }
+.resultWrapper{
+  width: 100%;
+  overflow: hidden;
+}
 .resultLeft{
   float:left;
   width:28%;
@@ -111,6 +119,8 @@ i.icon-jianyi{color:#1296db;margin-top:12px;}
   color: #888;
   line-height: 22px;
   text-align: justify;
+  height: 350px;
+  overflow: auto;
 }
 .title{
   font-size: 14pt;
