@@ -1,0 +1,93 @@
+/* pages/uploadSuccess/uploadSuccess.wxss */
+.grayBg{
+  width:92%;
+  height: 100%;
+  background: #f7f7f7;
+  padding: 4%;
+}
+.successContainer{
+  width:96%;
+  margin: 12px auto 0px;
+  background: #fff;
+  box-shadow: 0 1px 3px 1px #f1f1f1;
+  border-radius: 6px;
+  padding: 12px 2%;
+  border: 1px solid #ffffff;
+  position: relative;
+  overflow: hidden;
+}
+.successTitle{
+  width: 96%;
+  margin: 0px auto;
+  overflow: hidden;
+}
+.portrait{
+  float:left;
+  width: 30%;
+  text-align: left;
+}
+.introduction{
+  width: 68%;
+  float:left;
+  text-align: left;
+  padding-left: 2%;
+  margin-bottom: 2%;
+}
+.starIcon {
+  height: 20px;
+  line-height: 19px;
+}
+.icon-xingxing{color:#ffb552;font-size: 0.7rem;}
+.iconfont {
+    font-family: "iconfont" !important;
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.icon-xingxing:before {
+    content: "★";
+}
+.introduction text.title{
+  font-weight: bold;
+  font-size: 12pt;
+  color: #000;
+}
+.introduction text{
+  color: #a3a3a3;
+  font-size: 10pt;
+}
+.analystsInfo{
+  width: 100%;
+  margin:0px auto;
+  font-size: 12pt;
+  text-align: justify;
+}
+.borderColor{
+  border: 1px solid #ffb552;
+}
+.jiaobiao {
+    color: #fff;
+    width: 26%;
+    height: 2rem;
+    line-height: 1.6rem;
+    background-color: #ffb552;
+    display: none;
+    position: absolute;
+    top: -.2rem;
+    right: -1.6rem;
+    text-align: center;
+    z-index: 1;
+    transform: rotate(40deg);
+    font-size: 1.6rem;
+    font-weight: bold;
+}
+.successBtn{
+  width: 100%;
+  height: 30pt;
+  line-height: 30pt;
+  margin:30px auto;
+  background: #ffb552;
+  color: #fff;
+  font-size: 14pt;
+}
