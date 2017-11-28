@@ -4,7 +4,7 @@
     <image class="logoImg" src="../../images/logo.png"  mode="widthFix" />
     <text class='logoTxt'>{{login.desc}}</text>
   </view>  
-  <form class='loginForm'>
+  <form class='loginForm' wx:if="{{showPage}}">
     <view class="section">
       <input placeholder="请输入您的手机号" type='number' maxlength="11"  bindblur="phoneInput" focus="{{focus}}"/>
     </view>
@@ -24,5 +24,8 @@
     <button class='loginBtn' bindtap="loginSubmit">开始认识真我</button>
     </view>
   </form>
+  <view wx:else class='index_loading'>
+    <image style="width:80px;height:80px;margin:0px auto;" src='../../images/loading.gif'/>
+  </view>
 </view>
 

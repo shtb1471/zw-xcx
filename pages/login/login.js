@@ -2,6 +2,7 @@ const app = getApp();
 import { imageUtil, LoctionStorage } from '../../utils/util.js';
 Page({
   data: {
+    showPage:false,
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     login: { desc: "认识真实的我" },
@@ -52,30 +53,6 @@ Page({
       }
     })
   },
-  decodeUserInfo(code, resInfo, sessionKey) {
-    var _this=this;
-    wx.request({
-      url: app.data.zwUserInfoUrl + '/doDecryptData',//自己的服务接口地址
-      method: 'POST',
-      header: {
-        'content-type': 'application/x-www-form-urlencoded'
-      },
-      data: {
-        encryptedData: resInfo.encryptedData,
-        iv: resInfo.iv,
-        sessionKey: sessionKey,
-      },
-      success: function (res) {
-        _this.setData({
-          unionId: res.data.unionId
-        })
-        _this.autoLogin(res.data.unionId);
-      },
-      fail: function (res) {
-        console.log(res);
-      }
-    });
-  },
   getOpenId(code, userInfo) {
     var _this = this;
     wx.request({
@@ -91,8 +68,32 @@ Page({
       }
     })
   },
+  decodeUserInfo(code, resInfo, sessionKey) {
+    var _this = this;
+    wx.request({
+      url: app.data.zwUserInfoUrl + '/doDecryptData',//自己的服务接口地址
+      method: 'POST',
+      header: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      data: {
+        encryptedData: resInfo.encryptedData,
+        iv: resInfo.iv,
+        sessionKey: sessionKey,
+      },
+      success: function (res) {
+        _this.autoLogin(res.data.unionId);
+      },
+      fail: function (res) {
+        console.log(res);
+      }
+    });
+  },
   autoLogin(unionid) {
     var _this = this;
+    this.setData({
+      unionid: unionid
+    })
     wx.request({
       url: app.data.zwLoginUrl + '/zwlogin',
       method: 'POST',
@@ -104,8 +105,11 @@ Page({
         , unionId: unionid
       },
       header: { "Content-Type": "application/x-www-form-urlencoded" },
-      success: function (res) {
-        if (res.data.code == "0") {
+      success: function (res) {        
+        if(res.data.code == "0") {
+          _this.setData({
+            showPage: false
+          })
           var userId = res.data.data.userId;
           var sid = res.data.sid;
           var cookies = {
@@ -115,15 +119,19 @@ Page({
           wx.setStorageSync("cookies", cookies);
           // //判断有无测验
           _this.handResult_ajax(userId, sid);
+        }else{
+          if (res.data.code == "-100") {
+            _this.setData({
+              showPage: true
+            });
+            _this.getVerifyImgCode();
+          } 
         }
       },
       fail(e) {
 
       }
     })
-  },
-  onShow() {
-    this.getVerifyImgCode();
   },
   // 倒计时
   getTime() {
@@ -292,6 +300,7 @@ Page({
         },
         header: { "Content-Type": "application/x-www-form-urlencoded" },
         success: function (res) {
+          console.log(res);
           if (res.data.code == "0") {
             var userId = res.data.data.userId;
             var sid = res.data.sid;
@@ -304,7 +313,7 @@ Page({
             _this.handResult_ajax(userId, sid);
           } else {
             wx.showToast({
-              title: data.msg,
+              title: res.data.msg,
               image: "../../images/cross.png",
               icon: 'success',
               duration: 2000
