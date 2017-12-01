@@ -8,8 +8,8 @@ App({
     // zwUrl: 'http://zw.dalinggong.com',
     // 预发布
     dlgUrl: 'https://dlg3.dalinggong.com',
-    zwLoginUrl: 'http://sso3.dalinggong.com',
-    zwUrl: 'http://zw3.dalinggong.com',
+    zwLoginUrl: 'https://sso3.dalinggong.com',
+    zwUrl: 'https://zw3.dalinggong.com',
     zwUserInfoUrl:"http://wx2.dalinggong.com",
     cid: 'ZW-27582764699958629429945054803',
     cidUPimg: '27582764699958629429945054803'
@@ -21,12 +21,6 @@ App({
       logs.unshift(Date.now())
       wx.setStorageSync('logs', logs);
     }
-    // 登录
-    wx.login({
-      success: res => {
-        // 发送 res.code 到后台换取 openId, sessionKey, unionId
-      }
-    })
     // 获取用户信息
     wx.getSetting({
       success: res => {

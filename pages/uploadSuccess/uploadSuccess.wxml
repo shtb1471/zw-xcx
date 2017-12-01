@@ -21,7 +21,7 @@
       <view>精通五行、心理学、哲学等，拥有十多年跨界研究和实战经验。</view>
     </view>
     <span class="jiaobiao" style="{{showSelect1}}">
-    <i class="iconfont icon-queding">√</i>
+    <i class="iconfont icon-queding"></i>
     </span>
   </view>
   <view id='selectId2' class='successContainer {{borderColor2}}' bindtap='selectDiv'>
@@ -43,7 +43,7 @@
       <view>精通 人力资源、心理学，拥有多年研究和实战经验。</view>
     </view>
     <span class="jiaobiao" style="{{showSelect2}}">
-     <i class="iconfont icon-queding">√</i>
+     <i class="iconfont icon-queding"></i>
     </span>
   </view>
   <view>

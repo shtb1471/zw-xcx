@@ -7,7 +7,7 @@
     "pages/uploadSuccess/uploadSuccess",
     "pages/uploadFail/uploadFail",
     "pages/process/process",
-    "pages/result/result", 
+    "pages/result/result",
     "pages/share/share",
     "pages/logs/logs"
   ],

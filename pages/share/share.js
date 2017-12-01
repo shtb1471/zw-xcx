@@ -15,11 +15,11 @@ Page({
 
   },
   onLoad(option){
-    var _this = this,    
-    data = wx.getStorageSync("cookies");
+    var _this = this;
     wx.hideShareMenu();
     _this.setData({
-      userId: data.userId,
+      userId: option.userId,
+      sid: option.sid,
       personalityId: option.contentId
     })
     wx.request({
@@ -36,7 +36,6 @@ Page({
       },
       success: function (res) {
         var datas=res.data;
-        console.log(datas);
         if (datas.code == "0") {
           var banlvList = [];
           _this.setData({
@@ -52,7 +51,6 @@ Page({
               userName: ""
             });
           }
-          console.log(datas.personality.sex)
           switch (datas.personality.sex) {
             case 1:
               _this.setData({
@@ -78,7 +76,7 @@ Page({
             var dataLists = datas.data[i];
             var imgType = dataLists.imgType//imgType状态判断
             if (imgType == 4) {
-              _this.setData({
+              _this.setData({  
                 imgSrc: dataLists.imgUrl
               })
             }
@@ -101,7 +99,7 @@ Page({
 
         }else{
           wx.showToast({
-            title:datas.msg,
+            title: datas.data.msg == undefined ? "" : datas.data.msg,
             image: "../../images/cross.png",
             icon: 'success',
             duration: 2000

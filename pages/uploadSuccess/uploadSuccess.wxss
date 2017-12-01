@@ -1,4 +1,4 @@
-/* pages/uploadSuccess/uploadSuccess.wxss */
+@import '../../lib/font_icon/iconfont.wxss';
 .grayBg{
   width:92%;
   height: 100%;
@@ -6,13 +6,13 @@
   padding: 4%;
 }
 .successContainer{
-  width:96%;
+  width:94%;
   margin: 12px auto 0px;
   background: #fff;
   box-shadow: 0 1px 3px 1px #f1f1f1;
   border-radius: 6px;
   padding: 12px 2%;
-  border: 1px solid #ffffff;
+  border: 1px solid #ffffff; 
   position: relative;
   overflow: hidden;
 }
@@ -37,17 +37,7 @@
   height: 20px;
   line-height: 19px;
 }
-.icon-xingxing{color:#ffb552;font-size: 0.7rem;}
-.iconfont {
-    font-family: "iconfont" !important;
-    font-size: 16px;
-    font-style: normal;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-.icon-xingxing:before {
-    content: "★";
-}
+.icon-xingxing{color:#ffb552;font-size: 0.8rem;}
 .introduction text.title{
   font-weight: bold;
   font-size: 12pt;
@@ -68,14 +58,14 @@
 }
 .jiaobiao {
     color: #fff;
-    width: 26%;
-    height: 2rem;
-    line-height: 1.6rem;
+    width:6rem;
+    height:3rem;
+    line-height: 3.2rem;
     background-color: #ffb552;
     display: none;
     position: absolute;
-    top: -.2rem;
-    right: -1.6rem;
+    top:-1rem;
+    right:-2.4rem;
     text-align: center;
     z-index: 1;
     transform: rotate(40deg);
@@ -90,4 +80,8 @@
   background: #ffb552;
   color: #fff;
   font-size: 14pt;
+}
+.icon-queding{
+  transform:rotate(-45deg);
+  display:inline-block;
 }

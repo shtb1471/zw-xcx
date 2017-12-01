@@ -1,4 +1,3 @@
-/* pages/sex/sex.wxss */
 @import '../../lib/font_icon/iconfont.wxss';
 .sexContainer{
   width:100%;

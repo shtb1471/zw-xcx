@@ -21,7 +21,7 @@
       <text class='error'>{{errorMsg}}</text>
     </view>
     <view class='section'>
-    <button class='loginBtn' bindtap="loginSubmit">开始认识真我</button>
+    <button class='loginBtn' bindtap="loginSubmit" disabled='{{loginOperate}}'>开始认识真我</button>
     </view>
   </form>
   <view wx:else class='index_loading'>

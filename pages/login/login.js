@@ -15,6 +15,7 @@ Page({
     imgKey: "",
     verifyCode: "",
     disabled: false,
+    loginOperate:false,
     getVerifyTxt: "获取验证码",
     fixTime: 59,
     errorMsg: "",
@@ -29,7 +30,11 @@ Page({
   },
   onLoad: function (options) {
     wx.hideShareMenu();
-    this.getUnionId();
+    // this.getUnionId(); 
+    this.getVerifyImgCode();  
+    this.setData({
+      showPage: true
+    })
   },
   //获取unionid
   getUnionId() {
@@ -84,8 +89,8 @@ Page({
       success: function (res) {
         _this.autoLogin(res.data.unionId);
       },
-      fail: function (res) {
-        console.log(res);
+      fail: function (e) {
+        console.log(e);
       }
     });
   },
@@ -129,7 +134,7 @@ Page({
         }
       },
       fail(e) {
-
+        console.log(e);
       }
     })
   },
@@ -286,6 +291,14 @@ Page({
       } else {
         this.setData({ errorMsg: "" });
       }
+      _this.setData({
+        loginOperate: true
+      })
+      wx.showToast({
+        title: "加载中...",
+        icon: 'loading',
+        duration: 10000
+      });
       wx.request({
         url: app.data.zwLoginUrl + '/zwlogin',
         method: 'POST',
@@ -300,7 +313,6 @@ Page({
         },
         header: { "Content-Type": "application/x-www-form-urlencoded" },
         success: function (res) {
-          console.log(res);
           if (res.data.code == "0") {
             var userId = res.data.data.userId;
             var sid = res.data.sid;
@@ -312,6 +324,9 @@ Page({
             // //判断有无测验
             _this.handResult_ajax(userId, sid);
           } else {
+            _this.setData({
+              loginOperate: false
+            })
             wx.showToast({
               title: res.data.msg,
               image: "../../images/cross.png",
@@ -321,6 +336,9 @@ Page({
           }
         },
         fail: function (e) {
+          _this.setData({
+            loginOperate: false
+          })
           wx.showToast({
             title: e.msg,
             image: "../../images/cross.png",
@@ -374,9 +392,16 @@ Page({
               }
             }
           }
+        }else{
+          _this.setData({
+            loginOperate: false
+          })
         }
       },
       fail: function (e) {
+        _this.setData({
+          loginOperate: false
+        })
         wx.showToast({
           title: e.msg,
           image: "../../images/cross.png",
@@ -409,9 +434,16 @@ Page({
               url: '../rightHand/rightHand?_=' + new Date().getTime()
             })
           }
+        }else{
+          _this.setData({
+            loginOperate: false
+          })
         }
       },
       fail: function (e) {
+        _this.setData({
+          loginOperate: false
+        })
         wx.showToast({
           title: e.msg,
           image: "../../images/cross.png",

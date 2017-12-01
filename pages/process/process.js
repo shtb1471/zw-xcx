@@ -140,6 +140,10 @@ Page({
                   '&indexFingerLength=' + dataLists.indexFingerLength
                 });
               }, 1000);
+            }else{
+              setTimeout(function () {
+                _this.todoIsRefuse();//判断有无驳回
+              }, 1000);
             }
           }
         } else {//处理等待页面失败
