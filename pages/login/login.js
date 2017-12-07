@@ -21,20 +21,11 @@ Page({
     errorMsg: "",
     unionid: ""
   },
-  getUserInfo: function (e) {
-    app.globalData.userInfo = e.detail.userInfo
-    this.setData({
-      userInfo: e.detail.userInfo,
-      hasUserInfo: true
-    })
-  },
   onLoad: function (options) {
     wx.hideShareMenu();
-    // this.getUnionId(); 
-    this.getVerifyImgCode();  
-    this.setData({
-      showPage: true
-    })
+    this.getUnionId(); 
+    // this.setData({showPage:true});
+  
   },
   //获取unionid
   getUnionId() {
@@ -53,7 +44,12 @@ Page({
             }
           })
         } else {
-          console.log('获取用户登录态失败！' + res.errMsg);
+          wx.showToast({
+            title: "获取用户登录态失败！",
+            image: "../../images/cross.png",
+            icon: 'success',
+            duration: 2000
+          });
         }
       }
     })
@@ -61,16 +57,31 @@ Page({
   getOpenId(code, userInfo) {
     var _this = this;
     wx.request({
-      url: "https://api.weixin.qq.com/sns/jscode2session",
+      url: app.data.zwUserInfoUrl+"/getJscode2session",
+      method: 'POST',
+      header: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
       data: {
-        appid: app.data.appid,
-        secret: app.data.secret,
-        js_code: code,
-        grant_type: "autorization_code"
+        js_code: code
       },
       success(openRes) {
-        _this.decodeUserInfo(code, userInfo, openRes.data.session_key);
-      }
+        if (openRes.data.session_key) {
+          _this.decodeUserInfo(code, userInfo, openRes.data.session_key);
+        }else{
+          wx.showToast({
+            title: "请登录",
+            image: "../../images/cross.png",
+            icon: 'success',
+            duration: 2000
+          });
+          _this.setData({
+            showPage: true
+          });
+          _this.getVerifyImgCode();
+        }
+      },
+      fail(e){}
     })
   },
   decodeUserInfo(code, resInfo, sessionKey) {
@@ -309,7 +320,7 @@ Page({
           , source: "ZW-27582764699958629429945054883"              // 来源(必填)
           , client: "微信小程序"          //客户端类型(必填)
           , appVersion: "0.0.1"      //版本号(必填)
-          , unionId: _this.data.unionid
+          , unionId:this.data.unionid
         },
         header: { "Content-Type": "application/x-www-form-urlencoded" },
         success: function (res) {
