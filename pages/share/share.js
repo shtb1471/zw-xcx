@@ -18,8 +18,9 @@ Page({
     var _this = this;
     wx.hideShareMenu();
     _this.setData({
-      userId: option.userId,
       sid: option.sid,
+      userId: option.userId,
+      
       personalityId: option.contentId
     })
     wx.request({
@@ -35,7 +36,7 @@ Page({
         'content-type': 'application/x-www-form-urlencoded'
       },
       success: function (res) {
-        var datas=res.data;
+        var datas = res.data;
         if (datas.code == "0") {
           var banlvList = [];
           _this.setData({
@@ -76,7 +77,7 @@ Page({
             var dataLists = datas.data[i];
             var imgType = dataLists.imgType//imgType状态判断
             if (imgType == 4) {
-              _this.setData({  
+              _this.setData({
                 imgSrc: dataLists.imgUrl
               })
             }
@@ -97,9 +98,9 @@ Page({
             })
           }
 
-        }else{
+        } else {
           wx.showToast({
-            title: datas.data.msg == undefined ? "" : datas.data.msg,
+            title: data.msg,
             image: "../../images/cross.png",
             icon: 'success',
             duration: 2000

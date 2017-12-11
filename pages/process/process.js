@@ -35,7 +35,7 @@ Page({
             _this.handleCount_ajax();//查询待处理人数
           } else {//驳回页面
             wx.showToast({
-              title: "请求失败",
+              title: "已被驳回",
               image: "../../images/cross.png",
               duration: 2000
             });
@@ -75,7 +75,7 @@ Page({
         'content-type': 'application/x-www-form-urlencoded'
       },
       success: function (res) {
-        var datas=res.data;
+        var datas = res.data;
         if (datas.code == "0") {
           _this.setData({
             personCount: datas.data
@@ -83,20 +83,20 @@ Page({
           if(datas.data==0){
             _this.handResult_ajax();
           }
-        }else{
-          wx.showToast({
-            title: "请求失败",
-            image: "../../images/cross.png",
-            duration: 2000
-          });
+        } else {
+          // wx.showToast({
+          //   title: "请等待",
+          //   image: "../../images/cross.png",
+          //   duration: 2000
+          // });
           setTimeout(function () {
             wx.redirectTo({
               url: "../process/process"
             })
-          }, 500);
+          }, 1000);
         }
       },
-      error: function (e) {
+      fail: function (e) {
         wx.showToast({
           title: "请求失败",
           image: "../../images/cross.png",
@@ -106,7 +106,7 @@ Page({
           wx.redirectTo({
             url: "../process/process"
           })
-        }, 500);
+        }, 1000);
       }
     });
   },
@@ -147,16 +147,16 @@ Page({
             }
           }
         } else {//处理等待页面失败
-          wx.showToast({
-            title: "请求失败",
-            image: "../../images/cross.png",
-            duration: 2000
-          });
+          // wx.showToast({
+          //   title: "请求失败",
+          //   image: "../../images/cross.png",
+          //   duration: 2000
+          // });
           setTimeout(function () {
             wx.redirectTo({
               url: "../process/process"
             })
-          }, 500);
+          }, 1000);
         }
       },
       fail: function (e) {
@@ -169,7 +169,7 @@ Page({
           wx.redirectTo({
             url: "../process/process"
           })
-        }, 500);
+        }, 1000);
       }
     })
   }

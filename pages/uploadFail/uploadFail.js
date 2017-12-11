@@ -16,17 +16,17 @@ Page({
     wx.hideShareMenu();
     this.setData({
       reject: options.reject,
-      imgType: options.imgType == undefined ? 0 : options.imgType,
+      imgType: options.imgType == undefined ? "0" : options.imgType,
       userId: data.userId,
       sid: data.sid
     })
-    if (options.reject) {
+    if (options.reject=="true") {
       //驳回信息
       wx.request({
         url: app.data.zwUrl + '/api/zw/userHandApi/checkRejectInfo',
         method: 'POST',
         data: {
-          userId: "27881104368145886455240446502",
+          userId: _this.data.userId,
           sid: _this.data.sid,
           rejectStatus: "0"
         },
@@ -91,7 +91,7 @@ Page({
             //性别选择
           } else {
             wx.redirectTo({
-              url: "../rightHand/rightHand?imgType=0"
+              url: "../rightHand/rightHand?imgType=" + _this.data.imgType
             })
           }
         }

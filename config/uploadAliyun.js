@@ -1,6 +1,6 @@
 var env = {
   //aliyun OSS config
-  uploadImageUrl: "http://s.gongren.com/", //默认存在根目录，可根据需求改
+  uploadImageUrl: "https://gongren.oss-cn-hangzhou.aliyuncs.com/", //默认存在根目录，可根据需求改
   timeout: 87600,
   accessid: 't9zSHOdQ10x7QwLk',
   accesskey: 'etpwepGdRxIx3wpn86C2CpSyhXxfE9',
@@ -20,7 +20,14 @@ const uploadFile = function (filePath) {
     })
     return;
   }
-  const aliyunFileKey = env.dir + filePath.filePath.replace('http://tmp/', '');
+  var fileUrl="";
+  if (filePath.filePath.indexOf("http://tmp/")>-1){
+    fileUrl = filePath.filePath.replace('http://tmp/', '');
+  }
+  if (filePath.filePath.indexOf("wxfile://") > -1){
+    fileUrl = filePath.filePath.replace('wxfile://tmp_', '');
+  }
+  const aliyunFileKey = env.dir +fileUrl;
   const aliyunServerURL = env.uploadImageUrl;//OSS地址，需要https
   const accessid = env.accessid;
   const policyBase64 = getPolicyBase64();
@@ -45,7 +52,7 @@ const uploadFile = function (filePath) {
     },
     fail: function (err) {
       err.wxaddinfo = aliyunServerURL;
-      filePath.failc(err);
+      console.log(err.wxaddinfo);
     },
   })
 }

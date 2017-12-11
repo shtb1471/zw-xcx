@@ -11,7 +11,6 @@ Page({
   onLoad(option) {
     wx.hideShareMenu();
     var dataJson=wx.getStorageSync("cookies");
-    console.log("option",dataJson);
     this.setData({
       sid: dataJson.sid,
       userId:dataJson.userId
@@ -33,7 +32,6 @@ Page({
   },
   sexButton:function(){
     var _this = this;
-    console.log("sex", _this.data.sex);
     if (this.data.sex == "") {
       wx.showToast({
         title: '请选择您的性别',
@@ -55,7 +53,6 @@ Page({
         },
         success: function (res) {
           var datas=res.data;
-          console.log("datas",datas);
           if(datas.code==0){
             wx.showToast({
               title: "性别更新成功",

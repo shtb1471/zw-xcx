@@ -24,7 +24,6 @@ Page({
   onLoad: function (options) {
     wx.hideShareMenu();
     this.getUnionId(); 
-    // this.setData({showPage:true});
   
   },
   //获取unionid
@@ -116,7 +115,7 @@ Page({
       data: {
         type: '1'			     //用户类型，1、个人，2、企业（必填）
         , source: "ZW-27582764699958629429945054883"              // 来源(必填)
-        , client: "微信小程序"          //客户端类型(必填)
+        , client: "ZW-XCX"          //客户端类型(必填)
         , appVersion: "0.0.1"      //版本号(必填)
         , unionId: unionid
       },
@@ -134,6 +133,7 @@ Page({
           }
           wx.setStorageSync("cookies", cookies);
           // //判断有无测验
+         
           _this.handResult_ajax(userId, sid);
         }else{
           if (res.data.code == "-100") {
@@ -318,7 +318,7 @@ Page({
           , type: '1'			     //用户类型，1、个人，2、企业（必填）
           , validCode: _this.data.verifyCode			 //验证码
           , source: "ZW-27582764699958629429945054883"              // 来源(必填)
-          , client: "微信小程序"          //客户端类型(必填)
+          , client: "ZW-XCX"          //客户端类型(必填)
           , appVersion: "0.0.1"      //版本号(必填)
           , unionId:this.data.unionid
         },

@@ -10,7 +10,7 @@ Page({
     userInfo: {},
     avatarUrl: "../../images/right_zheng.png",
     handDesc: "右手掌",
-    imgType: 0,
+    imgType: "0",
     userId: "",
     sid: ""
   },
@@ -25,7 +25,7 @@ Page({
     wx.hideShareMenu();
     if (!option.imgType) {
       _this.setData({
-        imgType: 0,
+        imgType: "0",
         avatarUrl: "../../images/right_zheng.png",
         handDesc: "右手掌"
       })
@@ -33,42 +33,42 @@ Page({
       switch (option.imgType) {
         case "0":
           _this.setData({
-            imgType: 0,
+            imgType: "0",
             avatarUrl: "../../images/right_zheng.png",
             handDesc: "右手掌"
           })
           break;
         case "1":
           _this.setData({
-            imgType: 1,
+            imgType: "1",
             avatarUrl: "../../images/right_fan.png",
             handDesc: "右手背"
           })
           break;
         case "2":
           _this.setData({
-            imgType: 2,
+            imgType: "2",
             avatarUrl: "../../images/left_zheng.png",
             handDesc: "左手掌"
           })
           break;
         case "3":
           _this.setData({
-            imgType: 3,
+            imgType: "3",
             avatarUrl: "../../images/left_fan.png",
             handDesc: "左手背"
           })
           break;
         case "4":
           _this.setData({
-            imgType: 4,
+            imgType: "4",
             avatarUrl: "../../images/uploadAvatar.png",
             handDesc: "头部正面照"
           })
           break;
         default:
           _this.setData({
-            imgType: 0,
+            imgType: "0",
             avatarUrl: "../../images/right_zheng.png",
             handDesc: "右手掌"
           })
@@ -111,7 +111,7 @@ Page({
               });
               setTimeout(function () {
                 wx.redirectTo({
-                  url: '../uploadFail/uploadFail?reject=false&imgType=' + _this.data.imgType
+                  url: '../uploadFail/uploadFail?reject=false&imgType=' + that.data.imgType
                 })
               }, 500);
             }
@@ -126,7 +126,7 @@ Page({
         });
         setTimeout(function () {
           wx.redirectTo({
-            url: '../uploadFail/uploadFail?reject=false&imgType=' + _this.data.imgType
+            url: '../uploadFail/uploadFail?reject=false&imgType=' + that.data.imgType
           })
         }, 500);
       }
@@ -149,7 +149,7 @@ Page({
       },
       success(res) {
         if (res.data.code == 0) {
-          if(_this.data.imgType==0){
+          if(_this.data.imgType=="0"){
             wx.showToast({
               title:res.data.msg,
               icon: 'success',

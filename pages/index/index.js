@@ -11,15 +11,6 @@ Page({
   },
   onLoad:function(opt){
     wx.hideShareMenu();
-    if (opt.scene == 1044) {
-      wx.getShareInfo({
-        shareTicket: opt.shareTicket,
-        success: function (res) {
-          var encryptedData = res.encryptedData;
-          var iv = res.iv;
-        }
-      })
-    }
   },
   primary:function(){
     wx.redirectTo({

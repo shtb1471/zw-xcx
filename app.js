@@ -1,19 +1,19 @@
 //app.js
 App({
   data:{
-    // appid: "wx6d8e77a8bcfef9ac",
-    // secret: "45381717be6f2284df297d9cb9e5aa74",
-    // dlgUrl:  'https://dlg.dalinggong.com/v_2_4',
-    // zwLoginUrl:'https://sso.dalinggong.com',
-    // zwUrl: 'https://zw.dalinggong.com',     
-    // zwUserInfoUrl: "http://wx.dalinggong.com",
+    appid: "wx6d8e77a8bcfef9ac",
+    secret: "45381717be6f2284df297d9cb9e5aa74",
+    // appid:'wx568c16f48fed8e8d',
+    // secret:'5e368d82ac33b620d3fe784a74ab989f',
+    dlgUrl:  'https://dlg.dalinggong.com/v_2_4',
+    zwLoginUrl:'https://sso.dalinggong.com',
+    zwUrl: 'https://zw.dalinggong.com',
+    zwUserInfoUrl: "https://wx.dalinggong.com",
     // 预发布
-    appid: "wx568c16f48fed8e8d",
-    secret: "5e368d82ac33b620d3fe784a74ab989f",
-    dlgUrl: 'https://dlg3.dalinggong.com',
-    zwLoginUrl: 'https://sso3.dalinggong.com',
-    zwUrl: 'https://zw3.dalinggong.com',
-    zwUserInfoUrl:"https://wx2.dalinggong.com",
+    // dlgUrl: 'https://dlg3.dalinggong.com',
+    // zwLoginUrl: 'https://sso3.dalinggong.com',
+    // zwUrl: 'https://zw3.dalinggong.com',
+    // zwUserInfoUrl:"https://wx2.dalinggong.com",
     cid: 'ZW-27582764699958629429945054803',
     cidUPimg: '27582764699958629429945054803'
   },

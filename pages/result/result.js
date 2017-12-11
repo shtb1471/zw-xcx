@@ -358,12 +358,10 @@ Page({
     return {
       title: '“真我”比您更懂您，源于心理专家亲自解析',
       imageUrl: "../../images/logo_fenxiang.png",
-      path: '/pages/share/share?_lt=' + new Date().getTime() + 
-      '&contentId=' + _this.data.shareCharacterId + 
-      '&sid=' + _this.data.sid + 
-      '&userId=' + _this.data.userId,
+      path: '/pages/share/share?_lt=' + new Date().getTime() + '&contentId=' + _this.data.shareCharacterId + '&sid=' + _this.data.sid + '&userId=' + _this.data.userId,
       success: function (res) {
         // 转发成功
+        console.log(res);
       },
       fail: function (res) {
         // 转发失败
